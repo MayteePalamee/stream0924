@@ -1,7 +1,12 @@
 const express = require('express');
 const app = express();
+const fs = require('fs')
 var path = require('path')
-var http = require('http').createServer(app);
+
+var http = require('https').createServer({
+    key: fs.readFileSync('abels-key.pem'),
+    cert: fs.readFileSync('abels-cert.pem')
+},app);;
 
 app.set('view engine','ejs');
 app.set('views','./views');

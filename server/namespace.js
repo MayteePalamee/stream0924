@@ -1,4 +1,3 @@
-
 const events = require('./events/event');
 const onConnection = (socket) => {
     socket.on('chennel', events.join(socket, namespace))
@@ -8,7 +7,9 @@ const onConnection = (socket) => {
     socket.on('answer', events.answer(socket, namespace))
     socket.on('close', events.close(socket, namespace))
     socket.on('onmessage', events.onmessage(socket, namespace))
-    socket.on('onstream', events.onstream(socket, namespace))
+
+    socket.on('onstart', events.onstart(socket, namespace))
+    socket.on('onstream', events.onstream())   
 }
 
 exports.createNameSpace = (io) => {    

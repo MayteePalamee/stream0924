@@ -104,7 +104,7 @@ var start = e =>
         recorder.ondataavailable = event => {
             const blob = event.data;
             /**NOTE sent blob to socket */
-            //io.emit('onstream', blob);
+            io.emit('onstream', blob);
         };
         recorder.start(1000);
         pc.createDataChannel("close").onclose = stop
@@ -196,5 +196,8 @@ $(document).ready(function(){
     });
     $("#hangup").on('click', function(){
         io.emit('close','colse peer connection');           
+    });
+    $("#stream").on('click', function(){
+        io.emit('onstart');           
     });
 });
