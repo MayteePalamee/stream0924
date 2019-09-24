@@ -1,0 +1,232 @@
+/******/ (function(modules) { // webpackBootstrap
+/******/ 	// The module cache
+/******/ 	var installedModules = {};
+/******/
+/******/ 	// The require function
+/******/ 	function __webpack_require__(moduleId) {
+/******/
+/******/ 		// Check if module is in cache
+/******/ 		if(installedModules[moduleId]) {
+/******/ 			return installedModules[moduleId].exports;
+/******/ 		}
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = installedModules[moduleId] = {
+/******/ 			i: moduleId,
+/******/ 			l: false,
+/******/ 			exports: {}
+/******/ 		};
+/******/
+/******/ 		// Execute the module function
+/******/ 		modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
+/******/
+/******/ 		// Flag the module as loaded
+/******/ 		module.l = true;
+/******/
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
+/******/
+/******/
+/******/ 	// expose the modules object (__webpack_modules__)
+/******/ 	__webpack_require__.m = modules;
+/******/
+/******/ 	// expose the module cache
+/******/ 	__webpack_require__.c = installedModules;
+/******/
+/******/ 	// define getter function for harmony exports
+/******/ 	__webpack_require__.d = function(exports, name, getter) {
+/******/ 		if(!__webpack_require__.o(exports, name)) {
+/******/ 			Object.defineProperty(exports, name, { enumerable: true, get: getter });
+/******/ 		}
+/******/ 	};
+/******/
+/******/ 	// define __esModule on exports
+/******/ 	__webpack_require__.r = function(exports) {
+/******/ 		if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
+/******/ 			Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
+/******/ 		}
+/******/ 		Object.defineProperty(exports, '__esModule', { value: true });
+/******/ 	};
+/******/
+/******/ 	// create a fake namespace object
+/******/ 	// mode & 1: value is a module id, require it
+/******/ 	// mode & 2: merge all properties of value into the ns
+/******/ 	// mode & 4: return value when already ns object
+/******/ 	// mode & 8|1: behave like require
+/******/ 	__webpack_require__.t = function(value, mode) {
+/******/ 		if(mode & 1) value = __webpack_require__(value);
+/******/ 		if(mode & 8) return value;
+/******/ 		if((mode & 4) && typeof value === 'object' && value && value.__esModule) return value;
+/******/ 		var ns = Object.create(null);
+/******/ 		__webpack_require__.r(ns);
+/******/ 		Object.defineProperty(ns, 'default', { enumerable: true, value: value });
+/******/ 		if(mode & 2 && typeof value != 'string') for(var key in value) __webpack_require__.d(ns, key, function(key) { return value[key]; }.bind(null, key));
+/******/ 		return ns;
+/******/ 	};
+/******/
+/******/ 	// getDefaultExport function for compatibility with non-harmony modules
+/******/ 	__webpack_require__.n = function(module) {
+/******/ 		var getter = module && module.__esModule ?
+/******/ 			function getDefault() { return module['default']; } :
+/******/ 			function getModuleExports() { return module; };
+/******/ 		__webpack_require__.d(getter, 'a', getter);
+/******/ 		return getter;
+/******/ 	};
+/******/
+/******/ 	// Object.prototype.hasOwnProperty.call
+/******/ 	__webpack_require__.o = function(object, property) { return Object.prototype.hasOwnProperty.call(object, property); };
+/******/
+/******/ 	// __webpack_public_path__
+/******/ 	__webpack_require__.p = "";
+/******/
+/******/
+/******/ 	// Load entry module and return exports
+/******/ 	return __webpack_require__(__webpack_require__.s = "./index.js");
+/******/ })
+/************************************************************************/
+/******/ ({
+
+/***/ "./config/app.js":
+/*!***********************!*\
+  !*** ./config/app.js ***!
+  \***********************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+eval("/* WEBPACK VAR INJECTION */(function(__dirname) {const express = __webpack_require__(/*! express */ \"express\");\n\nconst app = express();\n\nconst io = app.io = __webpack_require__(/*! socket.io */ \"socket.io\")();\n\nconst path = __webpack_require__(/*! path */ \"path\");\n\nconst cors = __webpack_require__(/*! cors */ \"cors\");\n\nconst bodyParser = __webpack_require__(/*! body-parser */ \"body-parser\");\n\nconst chat = __webpack_require__(/*! ../namespace */ \"./namespace.js\");\n\napp.use(cors());\napp.use(bodyParser.json());\napp.use((req, res, next) => {\n  res.header(\"Access-Control-Allow-Origin\", \"*\");\n  res.header(\"Access-Control-Allow-Headers\", \"X-Requested-With\");\n  next();\n});\napp.use(express.static(path.join(__dirname, '../dist')));\nchat.createNameSpace(io);\nmodule.exports = app;\n/* WEBPACK VAR INJECTION */}.call(this, \"/\"))\n\n//# sourceURL=webpack:///./config/app.js?");
+
+/***/ }),
+
+/***/ "./events/event.js":
+/*!*************************!*\
+  !*** ./events/event.js ***!
+  \*************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+eval("/**NOTE which ffmpeg */\nvar shell = __webpack_require__(/*! shelljs */ \"shelljs\");\n\nvar ffmpeg = shell.which('ffmpeg');\n/**#.env */\n\nconst dotenv = __webpack_require__(/*! dotenv */ \"dotenv\");\n\ndotenv.config();\n\nif (!ffmpeg) {\n  shell.echo('Sorry, this script requires ffmpeg');\n  shell.exit(1);\n}\n/**NOTE  */\n\n\nconst spawn = __webpack_require__(/*! child_process */ \"child_process\").spawn;\n/**\r\n * \r\n * @param {*} blob \r\n * @param {*} socket \r\n * @param {*} namespace \r\n */\n\n\nconst onstream = (socket, namespace) => data => {\n  var args = ['-i', '-', '-c:v', 'libx264', '-preset', 'veryfast', '-tune', 'zerolatency', // video codec config: low latency, adaptive bitrate\n  '-c:a', 'aac', '-ar', '44100', '-b:a', '64k', // audio codec config: sampling frequency (11025, 22050, 44100), bitrate 64 kbits\n  '-y', //force to overwrite\n  '-use_wallclock_as_timestamps', '1', // used for audio sync\n  '-async', '1', // used for audio sync\n  //'-filter_complex', 'aresample=44100', // resample audio to 44100Hz, needed if input is not 44100\n  //'-strict', 'experimental', \n  '-bufsize', '1000', '-f', 'flv', process.env.RTMP + '/12345'];\n  ffmpeg = spawn('ffmpeg', args);\n  ffmpeg.stdin.write(data);\n  const room = Object.keys(socket.rooms)[1];\n  namespace.to(room).emit('onstream', \"stream run with : \" + process.env.RTMP + '/' + socket.id);\n  ffmpeg.on('error', function (err) {\n    console.log(err);\n    ffmpeg.stdin.end();\n    ffmpeg.kill('SIGINT');\n  });\n  ffmpeg.on('close', function (code) {\n    console.log('ffmpeg exited with code ' + code);\n  });\n  ffmpeg.stderr.on('data', function (data) {\n    var tData = data.toString('utf8');\n    var a = tData.split('\\n');\n    console.log(a);\n  });\n  ffmpeg.stdout.on('data', function (data) {\n    var tLines = data.toString().split('\\n');\n    var progress = {};\n\n    for (var i = 0; i < tLines.length; i++) {\n      var key = tLines[i].split('=');\n\n      if (typeof key[0] != 'undefined' && typeof key[1] != 'undefined') {\n        progress[key[0]] = key[1];\n      }\n    } // The 'progress' variable contains a key value array of the data\n\n\n    console.log(progress);\n  });\n};\n/** \r\n * @param {*} socket \r\n * @param {*} namespace \r\n */\n\n\nconst join = (socket, namespace) => room => {\n  socket.join(room);\n  namespace.to(room).emit('chennel', socket.id + ' : ' + room);\n};\n\nconst exits = (socket, namespace) => room => {\n  socket.leave(room, () => {\n    socket.to(room).emit('onmessage', 'user : ' + socket.id + ' exit room.');\n  });\n};\n\nconst offer = (socket, namespace) => offer => {\n  const room = Object.keys(socket.rooms)[1];\n  socket.to(room).emit('offer', offer);\n};\n\nconst candidate = (socket, namespace) => candidate => {\n  const room = Object.keys(socket.rooms)[1];\n  socket.to(room).emit('candidate', candidate);\n};\n\nconst answer = (socket, namespace) => answer => {\n  const room = Object.keys(socket.rooms)[1];\n  socket.to(room).emit('answer', answer);\n};\n\nconst onmessage = (socket, namespace) => message => {\n  const room = Object.keys(socket.rooms)[1];\n  namespace.to(room).emit('onmessage', message);\n};\n\nconst close = (socket, namespace) => message => {\n  const room = Object.keys(socket.rooms)[1];\n  namespace.to(room).emit('close', message);\n};\n\nmodule.exports = {\n  join,\n  offer,\n  exits,\n  candidate,\n  answer,\n  onmessage,\n  close,\n  onstream\n};\n\n//# sourceURL=webpack:///./events/event.js?");
+
+/***/ }),
+
+/***/ "./index.js":
+/*!******************!*\
+  !*** ./index.js ***!
+  \******************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+eval("const http = __webpack_require__(/*! http */ \"http\");\n\nconst app = __webpack_require__(/*! ./config/app */ \"./config/app.js\");\n/**#.env */\n\n\nconst dotenv = __webpack_require__(/*! dotenv */ \"dotenv\");\n\ndotenv.config();\nconst server = http.createServer(app);\napp.io.attach(server);\napp.io.origins([\"*:*\"]);\nserver.listen(process.env.PORT, () => {\n  console.log(`Server Listening on port ${process.env.PORT}`);\n});\n\n//# sourceURL=webpack:///./index.js?");
+
+/***/ }),
+
+/***/ "./namespace.js":
+/*!**********************!*\
+  !*** ./namespace.js ***!
+  \**********************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+eval("const events = __webpack_require__(/*! ./events/event */ \"./events/event.js\");\n\nconst onConnection = socket => {\n  socket.on('chennel', events.join(socket, namespace));\n  socket.on('exits', events.exits(socket, namespace));\n  socket.on('candidate', events.candidate(socket, namespace));\n  socket.on('offer', events.offer(socket, namespace));\n  socket.on('answer', events.answer(socket, namespace));\n  socket.on('close', events.close(socket, namespace));\n  socket.on('onmessage', events.onmessage(socket, namespace));\n  socket.on('onstream', events.onstream(socket, namespace));\n};\n\nexports.createNameSpace = io => {\n  namespace = io.on('connection', onConnection);\n};\n\n//# sourceURL=webpack:///./namespace.js?");
+
+/***/ }),
+
+/***/ "body-parser":
+/*!******************************!*\
+  !*** external "body-parser" ***!
+  \******************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+eval("module.exports = require(\"body-parser\");\n\n//# sourceURL=webpack:///external_%22body-parser%22?");
+
+/***/ }),
+
+/***/ "child_process":
+/*!********************************!*\
+  !*** external "child_process" ***!
+  \********************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+eval("module.exports = require(\"child_process\");\n\n//# sourceURL=webpack:///external_%22child_process%22?");
+
+/***/ }),
+
+/***/ "cors":
+/*!***********************!*\
+  !*** external "cors" ***!
+  \***********************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+eval("module.exports = require(\"cors\");\n\n//# sourceURL=webpack:///external_%22cors%22?");
+
+/***/ }),
+
+/***/ "dotenv":
+/*!*************************!*\
+  !*** external "dotenv" ***!
+  \*************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+eval("module.exports = require(\"dotenv\");\n\n//# sourceURL=webpack:///external_%22dotenv%22?");
+
+/***/ }),
+
+/***/ "express":
+/*!**************************!*\
+  !*** external "express" ***!
+  \**************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+eval("module.exports = require(\"express\");\n\n//# sourceURL=webpack:///external_%22express%22?");
+
+/***/ }),
+
+/***/ "http":
+/*!***********************!*\
+  !*** external "http" ***!
+  \***********************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+eval("module.exports = require(\"http\");\n\n//# sourceURL=webpack:///external_%22http%22?");
+
+/***/ }),
+
+/***/ "path":
+/*!***********************!*\
+  !*** external "path" ***!
+  \***********************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+eval("module.exports = require(\"path\");\n\n//# sourceURL=webpack:///external_%22path%22?");
+
+/***/ }),
+
+/***/ "shelljs":
+/*!**************************!*\
+  !*** external "shelljs" ***!
+  \**************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+eval("module.exports = require(\"shelljs\");\n\n//# sourceURL=webpack:///external_%22shelljs%22?");
+
+/***/ }),
+
+/***/ "socket.io":
+/*!****************************!*\
+  !*** external "socket.io" ***!
+  \****************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+eval("module.exports = require(\"socket.io\");\n\n//# sourceURL=webpack:///external_%22socket.io%22?");
+
+/***/ })
+
+/******/ });

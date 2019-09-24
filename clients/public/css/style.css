@@ -1,0 +1,11 @@
+html , body {
+    font-family: Kanit;
+}
+.remote {
+    border: 1px solid lightblue;
+    margin: 0 auto;
+}
+.me {
+    border: 1px solid lightsalmon;
+    margin: 0 auto;
+}

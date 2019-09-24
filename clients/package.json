@@ -1,0 +1,36 @@
+{
+  "name": "clients",
+  "version": "1.0.0",
+  "description": "",
+  "private": true,
+  "scripts": {
+    "start" : "node index",
+    "build": "webpack",
+    "watch": "webpack --watch"
+  },
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "dotenv": "^8.1.0",
+    "ejs": "^2.7.1",
+    "express": "^4.17.1",
+    "http": "^0.0.0",
+    "jquery": "^3.4.1",
+    "jsdom": "^15.1.1",
+    "lodash": "^4.17.15",
+    "log4js": "^5.1.0",
+    "path": "^0.12.7",
+    "socket.io": "^2.2.0",
+    "socket.io-client": "^2.2.0",
+    "uuid": "^3.3.3"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.6.0",
+    "babel-loader": "^8.0.6",
+    "webpack": "^4.40.2",
+    "webpack-cli": "^3.3.9",
+    "webpack-node-externals": "^1.7.2"
+  },
+  "author": "",
+  "license": "ISC"
+}

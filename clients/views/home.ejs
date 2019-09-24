@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Video Chat</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Kanit&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/bootstrap-material-design@4.1.1/dist/css/bootstrap-material-design.min.css" integrity="sha384-wXznGJNEXNG1NFsbm0ugrLFMQPWswR3lds2VeinahP8N0zJw9VWSopbjv2x7WCvX" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css"  href="css/style.css" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/popper.js@1.12.6/dist/umd/popper.js" integrity="sha384-fA23ZRQ3G/J53mElWqVJEGJzU0sTs+SvzG8fXVWP+kJQ1lwFAOkcUOysnlKJC33U" crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/bootstrap-material-design@4.1.1/dist/js/bootstrap-material-design.js" integrity="sha384-CauSuKpEqAFajSpkdjv3z9t8E7RlpJ1UP0lKM/+NdtSarroVKu069AlsRPKkFBz9" crossorigin="anonymous"></script>
+    <script>$(document).ready(function() { $('body').bootstrapMaterialDesign(); });</script>
+    
+</head>
+<body>    
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <h1>Video Chat.</h1>
+            </div>           
+        </div>
+        <div class="row mb-2">
+            <div class="col-mb-4">
+                <video id="local" width="350" class="mb-2 me" autoplay></video>
+                <input type="text" name="local-room" id="room" placeholder="room" class="form-control form-control-sm mb-2"/>
+                <button type="button" class="btn btn-sm btn-outline-warning" id="roomId"><i class="material-icons">keyboard</i></button>
+            </div>
+            <div class="col-mb-4">
+                <video id="remote" width="350" class="mb-2 remote" autoplay></video>               
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">                                               
+                <button type="button" class="btn btn-sm btn-outline-primary" id="connect"><i class="material-icons">cast_connected</i></button>
+                <button type="button" class="btn btn-sm btn-outline-danger" id="leave"><i class="material-icons">directions_walk</i></button>
+                <button type="button" class="btn btn-sm btn-outline-secondary" id="join"><i class="material-icons">control_point</i></button>
+                <button type="button" class="btn btn-sm btn-outline-info" id="call"><i class="material-icons">voice_chat</i></button>
+                <button type="button" class="btn btn-sm btn-outline-danger" id="hangup"><i class="material-icons">call_end</i></button>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-4">      
+                <input type="text" id="txt-input" class="form-control form-control-sm mb-2"/>                                         
+                <button type="button" class="btn btn-sm btn-outline-success" id="message"><i class="material-icons">comment</i></button>
+            </div>
+            <div class="col-12">      
+                <div id="txt"></div> 
+            </div>
+        </div> 
+    </div>
+</body>
+<script src="bundle.js"></script>
+</html>
