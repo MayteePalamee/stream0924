@@ -143,6 +143,14 @@ io.on('connect', () => {
                 mediaLocal = stream;
                 await pc.setLocalDescription(await pc.createAnswer());
                 io.emit('answer', pc.localDescription);
+
+                const recorder = new MediaRecorder(stream);
+                recorder.ondataavailable = event => {
+                    const blob = event.data;
+                    /**NOTE sent blob to socket */
+                    io.emit('onremote', blob);
+                };
+                recorder.start(1000);
             }            
         } else {
             return false;
@@ -167,7 +175,9 @@ io.on('connect', () => {
         stop();    
     })
 });
-
+io.on('disconnect', () => {
+    console.log("disconnect")
+})
 $(document).ready(function(){
     $('#message').on('click', function(e){
         io.emit('onmessage', $("#txt-input").val());         
@@ -199,5 +209,8 @@ $(document).ready(function(){
     });
     $("#stream").on('click', function(){
         io.emit('onstart');           
+    });
+    $("#disconnect").on('click', function(){
+        io.disconnect();         
     });
 });

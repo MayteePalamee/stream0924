@@ -9,10 +9,15 @@ const onConnection = (socket) => {
     socket.on('onmessage', events.onmessage(socket, namespace))
 
     socket.on('onstart', events.onstart(socket, namespace))
-    socket.on('onstream', events.onstream())   
+    socket.on('onstream', events.onstream(socket, namespace))  
+    socket.on('onremote', events.onremote(socket, namespace))  
 }
 
 exports.createNameSpace = (io) => {    
     namespace = io
-        .on('connection', onConnection)
+        .on('connection', onConnection);
+
+    io.on('disconnect', (socket) => {
+        console.log("disconnect from cilent." + socket.id)        
+    });
 }
